@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Qué hacemos juntos? 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #e94560;
+            text-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #a0a0a0;
+            margin-bottom: 40px;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(233, 69, 96, 0.3);
+            border-radius: 20px;
+            padding: 25px 20px;
+            color: #fff;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .option-btn:hover {
+            background: rgba(233, 69, 96, 0.15);
+            border-color: #e94560;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.2);
+        }
+
+        .option-btn .emoji {
+            font-size: 1.8rem;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #a0a0a0;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            border-color: #e94560;
+            color: #e94560;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .day-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 18px 10px;
+            color: #fff;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .day-btn:hover {
+            background: rgba(233, 69, 96, 0.15);
+            border-color: #e94560;
+            transform: scale(1.05);
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .time-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 18px 10px;
+            color: #fff;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .time-btn:hover {
+            background: rgba(233, 69, 96, 0.15);
+            border-color: #e94560;
+            transform: scale(1.05);
+        }
+
+        .summary-box {
+            background: rgba(233, 69, 96, 0.1);
+            border: 2px solid #e94560;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .summary-box h2 {
+            color: #e94560;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .summary-item {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: #e0e0e0;
+        }
+
+        .summary-item span {
+            color: #e94560;
+            font-weight: 700;
+        }
+
+        .heart {
+            font-size: 3rem;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            display: inline-block;
+            margin: 20px 0;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.3;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .selected-info {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #a0a0a0;
+        }
+
+        .selected-info strong {
+            color: #e94560;
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            border: none;
+            border-radius: 50px;
+            padding: 18px 30px;
+            color: #fff;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            text-decoration: none;
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
+        }
+
+        .whatsapp-btn .emoji {
+            font-size: 1.5rem;
+        }
+
+        .phone-input-container {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(233, 69, 96, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .phone-input-container label {
+            display: block;
+            margin-bottom: 10px;
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        .phone-input-container input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.2);
+            color: #fff;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .phone-input-container input:focus {
+            border-color: #e94560;
+            box-shadow: 0 0 15px rgba(233, 69, 96, 0.2);
+        }
+
+        .save-phone-btn {
+            background: #e94560;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            color: #fff;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .save-phone-btn:hover {
+            background: #ff6b6b;
+            transform: scale(1.05);
+        }
+
+        .phone-saved {
+            color: #25d366;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: none;
+        }
+
+        @media (max-width: 400px) {
+            h1 { font-size: 1.6rem; }
+            .option-btn { font-size: 1rem; padding: 20px 15px; }
+            .days-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="hearts"></div>
+
+    <div class="container">
+        <!-- Pantalla 1: Elegir actividad -->
+        <div class="screen active" id="screen1">
+            <div class="heart">💕</div>
+            <h1>¿Qué hacemos juntos?</h1>
+            <p class="subtitle">Elige lo que más te apetezca...</p>
+
+            <div class="options-grid">
+                <button class="option-btn" onclick="selectActivity('cine')">
+                    <span class="emoji">🎬</span>
+                    <span>Ir al cine</span>
+                </button>
+                <button class="option-btn" onclick="selectActivity('comer')">
+                    <span class="emoji">🍽️</span>
+                    <span>Ir a comer</span>
+                </button>
+                <button class="option-btn" onclick="selectActivity('casa')">
+                    <span class="emoji">🏠</span>
+                    <span>Quedarnos en casa acostados (hace frío)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Pantalla 2: Elegir día -->
+        <div class="screen" id="screen2">
+            <div class="heart">📅</div>
+            <h1>¿Qué día te viene bien?</h1>
+            <p class="subtitle">Elige el día perfecto para nosotros</p>
+
+            <div class="selected-info" id="activityInfo"></div>
+
+            <div class="days-grid" id="daysGrid"></div>
+
+            <button class="back-btn" onclick="goBack(1)">← Volver</button>
+        </div>
+
+        <!-- Pantalla 3: Elegir hora -->
+        <div class="screen" id="screen3">
+            <div class="heart">⏰</div>
+            <h1>¿A qué hora?</h1>
+            <p class="subtitle">Elige el momento ideal</p>
+
+            <div class="selected-info" id="dayInfo"></div>
+
+            <div class="time-grid" id="timeGrid"></div>
+
+            <button class="back-btn" onclick="goBack(2)">← Volver</button>
+        </div>
+
+        <!-- Pantalla 4: Resumen + WhatsApp -->
+        <div class="screen" id="screen4">
+            <div class="heart">💖</div>
+            <h1>¡Perfecto!</h1>
+            <p class="subtitle">Ya tenemos nuestro plan</p>
+
+            <div class="summary-box">
+                <h2>Nuestra cita</h2>
+                <div class="summary-item">
+                    📍 <span id="summaryActivity"></span>
+                </div>
+                <div class="summary-item">
+                    📅 <span id="summaryDay"></span>
+                </div>
+                <div class="summary-item">
+                    ⏰ <span id="summaryTime"></span>
+                </div>
+            </div>
+
+            <!-- Configurar número de WhatsApp -->
+            <div class="phone-input-container" id="phoneConfig">
+                <label>📱 Ingresa el número de WhatsApp al que se enviará el mensaje:</label>
+                <input type="text" id="phoneInput" placeholder="Ej: +521234567890" maxlength="15">
+                <button class="save-phone-btn" onclick="savePhone()">💾 Guardar número</button>
+                <div class="phone-saved" id="phoneSaved">✅ Número guardado</div>
+            </div>
+
+            <!-- Botón de WhatsApp -->
+            <a href="#" class="whatsapp-btn" id="whatsappBtn" onclick="sendWhatsApp(event)" style="display:none;">
+                <span class="emoji">💬</span>
+                <span>Enviar elección por WhatsApp</span>
+            </a>
+
+            <p style="margin-top: 20px; color: #a0a0a0; font-size: 0.9rem;" id="phoneDisplay"></p>
+
+            <button class="back-btn" onclick="resetAll()">🔄 Empezar de nuevo</button>
+        </div>
+    </div>
+
+    <script>
+        let selections = {
+            activity: '',
+            activityText: '',
+            day: '',
+            time: ''
+        };
+
+        let phoneNumber = localStorage.getItem('whatsappNumber') || '';
+
+        const activityNames = {
+            'cine': '🎬 Ir al cine',
+            'comer': '🍽️ Ir a comer',
+            'casa': '🏠 Quedarnos en casa acostados'
+        };
+
+        function generateDays() {
+            const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+            const today = new Date();
+            let html = '';
+
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() + i);
+                const dayName = i === 0 ? 'Hoy' : (i === 1 ? 'Mañana' : days[date.getDay()]);
+                const dateStr = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+                const fullDate = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+
+                html += `<button class="day-btn" onclick="selectDay('${fullDate}', '${dayName} ${dateStr}')">${dayName}<br><small>${dateStr}</small></button>`;
+            }
+
+            return html;
+        }
+
+        function generateTimes() {
+            const times = [
+                '12:00', '13:00', '14:00', '15:00',
+                '16:00', '17:00', '18:00', '19:00',
+                '20:00', '21:00', '22:00'
+            ];
+
+            return times.map(t => 
+                `<button class="time-btn" onclick="selectTime('${t}')">${t}</button>`
+            ).join('');
+        }
+
+        function selectActivity(activity) {
+            selections.activity = activity;
+            selections.activityText = activityNames[activity];
+
+            document.getElementById('activityInfo').innerHTML = 
+                `Has elegido: <strong>${selections.activityText}</strong>`;
+            document.getElementById('daysGrid').innerHTML = generateDays();
+
+            showScreen(2);
+        }
+
+        function selectDay(fullDate, displayDate) {
+            selections.day = fullDate;
+            selections.dayDisplay = displayDate;
+
+            document.getElementById('dayInfo').innerHTML = 
+                `Actividad: <strong>${selections.activityText}</strong><br>Día: <strong>${displayDate}</strong>`;
+            document.getElementById('timeGrid').innerHTML = generateTimes();
+
+            showScreen(3);
+        }
+
+        function selectTime(time) {
+            selections.time = time;
+
+            document.getElementById('summaryActivity').textContent = selections.activityText;
+            document.getElementById('summaryDay').textContent = selections.day;
+            document.getElementById('summaryTime').textContent = selections.time;
+
+            // Mostrar configuración de teléfono o botón directo
+            if (phoneNumber) {
+                document.getElementById('phoneConfig').style.display = 'none';
+                document.getElementById('whatsappBtn').style.display = 'inline-flex';
+                document.getElementById('phoneDisplay').textContent = `Se enviará a: ${phoneNumber}`;
+            } else {
+                document.getElementById('phoneConfig').style.display = 'block';
+                document.getElementById('whatsappBtn').style.display = 'none';
+            }
+
+            showScreen(4);
+        }
+
+        function savePhone() {
+            const input = document.getElementById('phoneInput').value.trim();
+            // Limpiar el número (quitar espacios, guiones, etc.)
+            const cleanNumber = input.replace(/[\s\-\(\)]/g, '');
+
+            if (cleanNumber.length < 10) {
+                alert('Por favor ingresa un número válido con código de país (ej: +521234567890)');
+                return;
+            }
+
+            phoneNumber = cleanNumber;
+            localStorage.setItem('whatsappNumber', phoneNumber);
+
+            document.getElementById('phoneSaved').style.display = 'block';
+            document.getElementById('phoneConfig').style.display = 'none';
+            document.getElementById('whatsappBtn').style.display = 'inline-flex';
+            document.getElementById('phoneDisplay').textContent = `Se enviará a: ${phoneNumber}`;
+
+            setTimeout(() => {
+                document.getElementById('phoneSaved').style.display = 'none';
+            }, 3000);
+        }
+
+        function sendWhatsApp(e) {
+            e.preventDefault();
+
+            if (!phoneNumber) {
+                alert('Primero debes guardar un número de WhatsApp');
+                document.getElementById('phoneConfig').style.display = 'block';
+                document.getElementById('whatsappBtn').style.display = 'none';
+                return;
+            }
+
+            const message = `💕 ¡Hola! Ya elegí nuestro plan 💕%0A%0A` +
+                           `📍 Actividad: ${selections.activityText}%0A` +
+                           `📅 Día: ${selections.day}%0A` +
+                           `⏰ Hora: ${selections.time}%0A%0A` +
+                           `¡Te espero! 😊`;
+
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function showScreen(num) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen' + num).classList.add('active');
+        }
+
+        function goBack(toScreen) {
+            showScreen(toScreen);
+        }
+
+        function resetAll() {
+            selections = { activity: '', activityText: '', day: '', time: '' };
+            document.getElementById('phoneConfig').style.display = phoneNumber ? 'none' : 'block';
+            document.getElementById('whatsappBtn').style.display = phoneNumber ? 'inline-flex' : 'none';
+            document.getElementById('phoneDisplay').textContent = phoneNumber ? `Se enviará a: ${phoneNumber}` : '';
+            showScreen(1);
+        }
+
+        // Corazones flotantes de fondo
+        function createHearts() {
+            const container = document.getElementById('hearts');
+            const hearts = ['💕', '💖', '💗', '💓', '💝'];
+
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 8 + 's';
+                heart.style.animationDuration = (6 + Math.random() * 6) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        createHearts();
+    </script>
+</body>
+</html>
